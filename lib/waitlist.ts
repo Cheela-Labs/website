@@ -17,7 +17,7 @@ export type WaitlistResult = {
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const resendFrom =
-  process.env.RESEND_FROM_EMAIL ?? "Cheela <onboarding@resend.dev>";
+  process.env.RESEND_FROM_EMAIL ?? "Cheela <waitinglist@cheela.virentanti.in>";
 const resendClient = resendApiKey ? new Resend(resendApiKey) : null;
 
 function normalizeOptional(value?: string) {

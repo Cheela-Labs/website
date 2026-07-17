@@ -73,3 +73,80 @@ export function getVerificationMetadata(): Metadata["verification"] {
 
   return Object.keys(verification).length > 0 ? verification : undefined;
 }
+
+
+
+export const seo = {
+  site: {
+    name: "Cheela Labs",
+    shortName: "Cheela",
+    title: "Cheela Labs | Infrastructure for AI Agents",
+    description:
+      "Build production-ready AI agents with provider-agnostic runtimes, SDKs, and developer infrastructure.",
+    url: "https://cheela.virentanti.in",
+    domain: "cheela.virentanti.in",
+    locale: "en_US",
+    language: "en",
+    themeColor: "#0A0A0A",
+  },
+
+  social: {
+    github: "https://github.com/Cheela-Labs",
+    linkedin: "https://www.linkedin.com/company/cheela-labs",
+    x: "https://x.com/CheelaLabs",
+  },
+
+  images: {
+    og: "/og.png",
+    logo: "/logo.png",
+    favicon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+
+  company: {
+    legalName: "Cheela Labs",
+    foundingDate: "2026",
+    email: "hello@cheela.virentanti.in",
+  },
+
+  keywords: [
+    "AI",
+    "Artificial Intelligence",
+    "AI Infrastructure",
+    "AI Agents",
+    "Agent Runtime",
+    "Agent Framework",
+    "Developer Tools",
+    "TypeScript",
+    "SDK",
+    "Provider Agnostic",
+    "OpenAI",
+    "Anthropic",
+    "Gemini",
+    "MCP",
+    "Model Context Protocol",
+    "LangChain",
+    "CrewAI",
+    "Mastra",
+    "LlamaIndex",
+    "AI Runtime",
+    "Agent SDK",
+    "AI Platform",
+    "AI Engineering",
+    "Cheela",
+    "Cheela Labs",
+  ],
+
+  links: {
+    // docs: "https://docs.cheela.virentanti.in",
+    github: "https://github.com/cheela-labs",
+    npm: "https://www.npmjs.com/org/cheela-labs",
+  },
+
+  authors: [
+    {
+      name: "Cheela Labs",
+      url: "https://cheela.virentanti.in",
+    },
+  ],
+} as const;

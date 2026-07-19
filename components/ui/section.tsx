@@ -25,34 +25,30 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "border-t border-dashed border-[var(--border)] py-20 sm:py-24 lg:py-28",
+        "relative border-t border-[var(--border)] py-20 sm:py-24 lg:py-28",
         className,
       )}
     >
       <Container>
         <div className="space-y-10 sm:space-y-12">
           {eyebrow || title || description ? (
-            <div className="max-w-4xl space-y-4">
+            <div className="max-w-5xl space-y-5" data-reveal>
               {eyebrow ? (
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--primary)]">
-                  <span aria-hidden="true">SYS://</span>
+                <p className="flex items-center gap-3 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[var(--primary)]">
+                  <span
+                    aria-hidden="true"
+                    className="h-px w-10 bg-[var(--primary)] shadow-[0_0_8px_rgba(94,231,247,0.35)]"
+                  />
                   {eyebrow}
                 </p>
               ) : null}
               {title ? (
-                <h2 className="text-3xl font-semibold leading-tight tracking-[-0.04em] text-[var(--foreground)] sm:text-4xl lg:text-5xl">
-                  <span aria-hidden="true" className="text-[var(--muted)]">
-                    =={" "}
-                  </span>
+                <h2 className="text-3xl font-semibold leading-[1.05] tracking-[-0.055em] text-[var(--foreground)] sm:text-4xl lg:text-6xl">
                   {title}
-                  <span aria-hidden="true" className="text-[var(--muted)]">
-                    {" "}
-                    ==
-                  </span>
                 </h2>
               ) : null}
               {description ? (
-                <p className="max-w-3xl text-base leading-8 text-[var(--muted)] sm:text-lg">
+                <p className="max-w-3xl font-sans text-base leading-8 text-[var(--muted-bright)] sm:text-lg">
                   {description}
                 </p>
               ) : null}

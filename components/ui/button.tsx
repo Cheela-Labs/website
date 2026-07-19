@@ -10,18 +10,18 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "secondary" | "outline" | "ghost" | "link";
 
 const baseClassName =
-  "group inline-flex min-h-11 items-center justify-center gap-1 whitespace-nowrap border border-transparent px-3 py-2 font-mono text-sm font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-45";
+  "group inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap border px-4 py-2.5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.1em] transition-all duration-200 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-45";
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)]",
+    "border-[var(--primary)] bg-[var(--primary)] text-[var(--background)] shadow-[0_0_28px_rgba(94,231,247,0.14)] hover:-translate-y-0.5 hover:bg-[var(--primary-hover)] hover:shadow-[0_0_36px_rgba(94,231,247,0.24)]",
   secondary:
-    "text-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)]",
+    "border-[var(--border-bright)] bg-[rgba(11,18,32,0.7)] text-[var(--foreground)] hover:-translate-y-0.5 hover:border-[var(--violet)] hover:text-[var(--violet)]",
   outline:
-    "text-[var(--foreground)] hover:bg-[var(--primary)] hover:text-[var(--background)]",
+    "border-[var(--border-bright)] bg-transparent text-[var(--foreground)] hover:border-[var(--primary)] hover:text-[var(--primary)]",
   ghost:
-    "text-[var(--muted)] hover:bg-[var(--foreground)] hover:text-[var(--background)]",
-  link: "min-h-0 px-0 py-0 text-[var(--primary)] underline underline-offset-4 hover:bg-transparent hover:text-[var(--primary-hover)]",
+    "border-transparent bg-transparent text-[var(--muted)] hover:border-[var(--border)] hover:bg-[var(--surface)] hover:text-[var(--foreground)]",
+  link: "min-h-0 border-0 px-0 py-0 text-[var(--primary)] hover:bg-transparent hover:text-[var(--primary-hover)]",
 };
 
 type ButtonCommonProps = {
@@ -38,27 +38,13 @@ type ButtonAsAnchorProps = ButtonCommonProps &
 export function Button(props: ButtonAsButtonProps | ButtonAsAnchorProps) {
   const { children, variant = "primary", className, ...rest } = props;
   const classes = cn(baseClassName, variantClasses[variant], className);
-  const content =
-    variant === "link" ? (
-      <>
-        <span aria-hidden="true">&gt;</span>
-        <span>{children}</span>
-      </>
-    ) : (
-      <>
-        <span aria-hidden="true">[</span>
-        {variant === "primary" ? <span aria-hidden="true">►</span> : null}
-        <span>{children}</span>
-        <span aria-hidden="true">]</span>
-      </>
-    );
 
   if ("href" in props && props.href) {
     const anchorProps = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
 
     return (
       <a className={classes} {...anchorProps} href={props.href}>
-        {content}
+        {children}
       </a>
     );
   }
@@ -67,7 +53,7 @@ export function Button(props: ButtonAsButtonProps | ButtonAsAnchorProps) {
 
   return (
     <button type="button" className={classes} {...buttonProps}>
-      {content}
+      {children}
     </button>
   );
 }

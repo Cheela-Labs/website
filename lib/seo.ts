@@ -85,7 +85,7 @@ export const seo = {
     domain: "cheela.virentanti.in",
     locale: "en_US",
     language: "en",
-    themeColor: "#0A0A0A",
+    themeColor: "#050812",
   },
 
   social: {
@@ -95,7 +95,7 @@ export const seo = {
   },
 
   images: {
-    og: "/og.png",
+    og: "/og-v2.png",
     logo: "/logo.png",
     favicon: "/favicon.ico",
     apple: "/apple-touch-icon.png",

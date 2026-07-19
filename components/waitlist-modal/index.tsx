@@ -139,7 +139,7 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
       <button
         type="button"
         aria-label="Close waitlist modal"
-        className="absolute inset-0 cursor-default bg-black/90"
+        className="absolute inset-0 cursor-default bg-[rgba(2,4,10,0.88)] backdrop-blur-md"
         onClick={() => onOpenChange(false)}
       />
 
@@ -149,36 +149,34 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className="relative z-10 max-h-[calc(100vh-2.5rem)] w-[min(94vw,760px)] overflow-y-auto border-4 border-double border-[var(--primary)] bg-[var(--background)] text-[var(--foreground)]"
+        className="relative z-10 max-h-[calc(100vh-2.5rem)] w-[min(94vw,760px)] overflow-y-auto border border-[var(--border-bright)] bg-[linear-gradient(145deg,rgba(16,26,45,0.98),rgba(5,8,18,0.99))] text-[var(--foreground)] shadow-[0_40px_140px_rgba(0,0,0,0.7),0_0_80px_rgba(94,231,247,0.08)]"
       >
-        <div className="border-b border-[var(--border)] px-4 py-3 text-xs uppercase tracking-[0.16em] text-[var(--primary)] sm:px-6">
-          <span aria-hidden="true">┌─[ </span>
-          JOIN WAITLIST
-          <span aria-hidden="true"> ]</span>
+        <div className="flex items-center justify-between border-b border-[var(--border)] bg-[rgba(5,8,18,0.58)] px-4 py-3 text-[0.58rem] uppercase tracking-[0.14em] text-[var(--primary)] sm:px-6">
+          <span>CHEELA://EARLY_ACCESS</span>
+          <span className="flex items-center gap-2 text-[var(--lime)]">
+            <i
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]"
+            />
+            ONLINE
+          </span>
         </div>
 
         <div className="p-5 sm:p-8">
           <div className="flex items-start justify-between gap-5">
             <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                STATUS://EARLY_ACCESS
+              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-[var(--violet)]">
+                ACCESS REQUEST / 01
               </p>
               <h2
                 id={titleId}
-                className="text-2xl font-semibold tracking-[-0.04em] sm:text-4xl"
+                className="text-2xl font-semibold leading-tight tracking-[-0.055em] sm:text-4xl"
               >
-                <span aria-hidden="true" className="text-[var(--muted)]">
-                  =={" "}
-                </span>
                 Get early access to Cheela.
-                <span aria-hidden="true" className="text-[var(--muted)]">
-                  {" "}
-                  ==
-                </span>
               </h2>
               <p
                 id={descriptionId}
-                className="max-w-2xl text-sm leading-7 text-[var(--muted)] sm:text-base"
+                className="max-w-2xl font-sans text-sm leading-7 text-[var(--muted-bright)] sm:text-base"
               >
                 Tell us what you are building and we will send a confirmation
                 email as soon as you join.
@@ -187,10 +185,10 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="shrink-0 px-2 py-2 text-sm font-semibold text-[var(--muted)] transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)]"
+              className="grid h-10 w-10 shrink-0 place-items-center border border-[var(--border)] text-sm font-semibold text-[var(--muted)] transition-colors hover:border-[var(--coral)] hover:text-[var(--coral)]"
               aria-label="Close modal"
             >
-              <span aria-hidden="true">[ X ]</span>
+              <span aria-hidden="true">×</span>
             </button>
           </div>
 
@@ -198,18 +196,18 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
             <output className="flex flex-col items-center gap-6 py-14 text-center">
               <div
                 aria-hidden="true"
-                className="border border-[var(--primary)] px-5 py-4 text-4xl font-semibold text-[var(--primary)]"
+                className="grid h-24 w-24 place-items-center rounded-full border border-[var(--lime)] bg-[rgba(184,243,90,0.05)] text-2xl font-semibold text-[var(--lime)] shadow-[0_0_40px_rgba(184,243,90,0.1)]"
               >
-                [ OK ]
+                OK
               </div>
               <div className="space-y-3">
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--primary)]">
-                  STATUS: ACCEPTED
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
+                  REQUEST ACCEPTED
                 </p>
                 <h3 className="text-2xl font-semibold tracking-[-0.04em]">
                   You&apos;re on the list.
                 </h3>
-                <p className="text-[15px] leading-7 text-[var(--muted)]">
+                <p className="font-sans text-[15px] leading-7 text-[var(--muted-bright)]">
                   Check your inbox for a confirmation email. We&apos;ll keep you
                   updated as Cheela opens up.
                 </p>
@@ -331,7 +329,7 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
               ) : null}
 
               <div className="flex flex-col gap-3 border-t border-dashed border-[var(--border)] pt-5 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-[var(--muted)]">
+                <p className="font-sans text-sm text-[var(--muted)]">
                   We&apos;ll send a confirmation email right after you join.
                 </p>
                 <Button type="submit" disabled={status === "loading"}>

@@ -458,7 +458,7 @@ export function LandingPage() {
       <Section
         id="problem"
         eyebrow="Problem"
-        title="Agent systems fail when the execution is invisible."
+        title="A prompt is not an operating model."
         description="Teams can prototype a demo quickly, but reliability collapses when policy, model selection, retries, and tool execution live in different places."
       >
         <div className="grid gap-6 lg:grid-cols-3">
@@ -614,7 +614,7 @@ export function LandingPage() {
               ))}
             </div>
           </Card>
-          <Card>
+          {/* <Card>
             <div className="space-y-6">
               <div className="space-y-3">
                 <div className="text-sm uppercase tracking-[0.24em] text-[var(--muted)]">
@@ -640,7 +640,7 @@ export function LandingPage() {
                 </div>
               </div>
             </div>
-          </Card>
+          </Card> */}
         </div>
       </Section>
 
@@ -665,7 +665,7 @@ export function LandingPage() {
       <Section
         id="developer-experience"
         eyebrow="Developer Experience"
-        title="Real TypeScript, not screenshots."
+        title="Code that explains the system."
         description="Documentation that reads like production code, not marketing."
       >
         <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">

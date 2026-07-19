@@ -18,6 +18,11 @@ export function createMetadata(
 
     description: description ?? seo.site.description,
 
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-tpuch-icon.png"
+    },
+
     keywords: [...seo.keywords],
 
     authors: [...seo.authors],

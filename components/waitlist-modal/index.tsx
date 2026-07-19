@@ -139,7 +139,7 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
       <button
         type="button"
         aria-label="Close waitlist modal"
-        className="absolute inset-0 cursor-default bg-[rgba(2,4,10,0.88)] backdrop-blur-md"
+        className="absolute inset-0 cursor-default bg-black/85"
         onClick={() => onOpenChange(false)}
       />
 
@@ -149,15 +149,12 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className="relative z-10 max-h-[calc(100vh-2.5rem)] w-[min(94vw,760px)] overflow-y-auto border border-[var(--border-bright)] bg-[linear-gradient(145deg,rgba(16,26,45,0.98),rgba(5,8,18,0.99))] text-[var(--foreground)] shadow-[0_40px_140px_rgba(0,0,0,0.7),0_0_80px_rgba(94,231,247,0.08)]"
+        className="relative z-10 max-h-[calc(100vh-2.5rem)] w-[min(94vw,760px)] overflow-y-auto border border-[var(--foreground)] bg-[var(--background)] text-[var(--foreground)] shadow-[18px_18px_0_var(--primary)]"
       >
-        <div className="flex items-center justify-between border-b border-[var(--border)] bg-[rgba(5,8,18,0.58)] px-4 py-3 text-[0.58rem] uppercase tracking-[0.14em] text-[var(--primary)] sm:px-6">
+        <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--background-soft)] px-4 py-3 text-[0.58rem] uppercase tracking-[0.14em] text-[var(--primary)] sm:px-6">
           <span>CHEELA://EARLY_ACCESS</span>
           <span className="flex items-center gap-2 text-[var(--lime)]">
-            <i
-              aria-hidden="true"
-              className="h-1.5 w-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]"
-            />
+            <i aria-hidden="true" className="h-1.5 w-1.5 bg-current" />
             ONLINE
           </span>
         </div>
@@ -196,7 +193,7 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
             <output className="flex flex-col items-center gap-6 py-14 text-center">
               <div
                 aria-hidden="true"
-                className="grid h-24 w-24 place-items-center rounded-full border border-[var(--lime)] bg-[rgba(184,243,90,0.05)] text-2xl font-semibold text-[var(--lime)] shadow-[0_0_40px_rgba(184,243,90,0.1)]"
+                className="grid h-24 w-24 place-items-center border border-[var(--lime)] text-2xl font-semibold text-[var(--lime)]"
               >
                 OK
               </div>

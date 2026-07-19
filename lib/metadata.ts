@@ -11,7 +11,6 @@ export function createMetadata(
   const pageTitle = title ? `${title} | ${seo.site.name}` : seo.site.title;
   const metadataBase = new URL(origin);
   const canonical = new URL("/", metadataBase).toString();
-  const socialImage = new URL(seo.images.og, metadataBase).toString();
 
   return {
     metadataBase,
@@ -41,20 +40,12 @@ export function createMetadata(
       siteName: seo.site.name,
       title: pageTitle,
       description: description ?? seo.site.description,
-      images: [
-        {
-          url: socialImage,
-          width: 1731,
-          height: 909,
-        },
-      ],
     },
 
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: pageTitle,
       description: description ?? seo.site.description,
-      images: [socialImage],
     },
 
     robots: {

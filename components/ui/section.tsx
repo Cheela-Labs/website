@@ -34,10 +34,10 @@ export function Section({
           {eyebrow || title || description ? (
             <div className="max-w-5xl space-y-5" data-reveal>
               {eyebrow ? (
-                <p className="flex items-center gap-3 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[var(--primary)]">
+                <p className="flex items-center gap-3 text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-[var(--primary)]">
                   <span
                     aria-hidden="true"
-                    className="h-px w-10 bg-[var(--primary)] shadow-[0_0_8px_rgba(94,231,247,0.35)]"
+                    className="h-px w-10 bg-[var(--primary)]"
                   />
                   {eyebrow}
                 </p>

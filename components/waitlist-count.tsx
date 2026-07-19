@@ -31,14 +31,11 @@ export function WaitlistCount() {
 
   return (
     <div
-      className="border border-[var(--border)] bg-[rgba(11,18,32,0.72)] p-5"
+      className="border border-[var(--border)] bg-transparent p-5"
       aria-live="polite"
     >
       <div className="flex items-center gap-2 text-[0.55rem] uppercase tracking-[0.14em] text-[var(--muted)]">
-        <i
-          aria-hidden="true"
-          className="h-1.5 w-1.5 rounded-full bg-[var(--violet)] shadow-[0_0_8px_var(--violet)]"
-        />
+        <i aria-hidden="true" className="h-1.5 w-1.5 bg-[var(--violet)]" />
         EARLY_ACCESS_QUEUE
       </div>
       <div className="mt-4 flex items-end gap-3">

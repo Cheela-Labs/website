@@ -1,27 +1,5 @@
 "use client";
 
-import {
-  Activity,
-  ArrowUpRight,
-  Boxes,
-  Braces,
-  Check,
-  CircleDot,
-  Code2,
-  Cpu,
-  Eye,
-  Gauge,
-  type LucideIcon,
-  Menu,
-  Network,
-  Orbit,
-  Radar,
-  ShieldCheck,
-  Sparkles,
-  Workflow,
-  X,
-  Zap,
-} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,180 +11,143 @@ import { WaitlistCount } from "@/components/waitlist-count";
 import { WaitlistModal } from "@/components/waitlist-modal";
 
 const navLinks = [
-  { label: "Runtime", href: "#architecture" },
-  { label: "Platform", href: "#developer-platform" },
-  { label: "Developers", href: "#developer-experience" },
-  { label: "Roadmap", href: "#roadmap" },
-];
-
-const architectureSteps = [
-  { name: "Application", short: "APP", description: "Product request enters." },
-  { name: "Agent", short: "AGT", description: "Intent and context resolve." },
-  { name: "Policy", short: "PLY", description: "Guardrails are evaluated." },
-  { name: "Runtime", short: "RUN", description: "Execution is coordinated." },
-  { name: "Provider", short: "PRV", description: "The best model is routed." },
-  { name: "Capability", short: "CAP", description: "Tools perform the work." },
-  { name: "Action", short: "ACT", description: "A traceable result returns." },
+  { label: "Runtime", href: "#runtime" },
+  { label: "Architecture", href: "#architecture" },
+  { label: "Developers", href: "#developers" },
+  { label: "Open source", href: "#open-source" },
 ];
 
 const principles = [
   {
-    title: "Modular",
-    value: "14ms",
-    label: "route latency",
-    description:
-      "Swap providers and capabilities without changing the product.",
-  },
-  {
-    title: "Observable",
-    value: "100%",
-    label: "trace coverage",
-    description: "See every decision, policy check, tool call, and retry.",
-  },
-  {
-    title: "Controlled",
-    value: "8/8",
-    label: "policies active",
-    description: "Keep permissions and approvals inside the execution path.",
-  },
-];
-
-type Feature = {
-  code: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  tone: "cyan" | "violet" | "lime" | "coral";
-};
-
-const featureCards: Feature[] = [
-  {
-    code: "CTRL",
-    title: "Controlled execution",
-    description:
-      "Make routing, retries, timeouts, and approvals explicit for every run.",
-    icon: ShieldCheck,
-    tone: "cyan",
-  },
-  {
-    code: "COMP",
-    title: "Composable capabilities",
-    description:
-      "Assemble agents from small, typed capabilities instead of orchestration glue.",
-    icon: Boxes,
-    tone: "violet",
-  },
-  {
-    code: "OBSV",
-    title: "Runtime observability",
-    description:
-      "Follow state transitions, token usage, latency, and tool outcomes live.",
-    icon: Eye,
-    tone: "lime",
-  },
-  {
-    code: "POLI",
-    title: "Runtime policy",
-    description:
-      "Ship permissions and human checkpoints with the execution itself.",
-    icon: Gauge,
-    tone: "coral",
-  },
-  {
-    code: "PROV",
+    number: "01",
     title: "Provider agnostic",
     description:
-      "Route across OpenAI, Anthropic, Gemini, and whatever comes next.",
-    icon: Orbit,
-    tone: "violet",
+      "Change the model without changing how the rest of your product executes.",
+    note: "Routing is a runtime concern",
   },
   {
-    code: "DX",
-    title: "Developer experience",
+    number: "02",
+    title: "Composable",
     description:
-      "Use compact APIs, typed primitives, and examples that run as written.",
-    icon: Code2,
-    tone: "cyan",
+      "Build agents from small capabilities with clear inputs, outputs, and ownership.",
+    note: "Typed boundaries over glue",
+  },
+  {
+    number: "03",
+    title: "Observable",
+    description:
+      "Trace the decision, policy check, model call, tool result, and final action.",
+    note: "Nothing disappears in a prompt",
+  },
+  {
+    number: "04",
+    title: "Controlled",
+    description:
+      "Put approvals, permissions, retries, and limits in one execution contract.",
+    note: "Policy travels with the run",
   },
 ];
 
-const solutionItems = [
+const architectureSteps = [
   {
-    label: "Provider agnostic",
-    metric: "03",
-    text: "Route across models without rewriting your application.",
-    tone: "cyan",
+    label: "Application",
+    code: "APP",
+    description: "Product intent enters the system.",
   },
   {
-    label: "Composable",
-    metric: "∞",
-    text: "Combine only the capabilities your product actually needs.",
-    tone: "violet",
+    label: "Agent",
+    code: "AGT",
+    description: "Context and next action resolve.",
   },
   {
-    label: "Observable",
-    metric: "1:1",
-    text: "Map every result back to its complete execution path.",
-    tone: "lime",
+    label: "Cheela runtime",
+    code: "RUN",
+    description: "Policy, routing, and execution converge.",
   },
   {
-    label: "Predictable",
-    metric: "P99",
-    text: "Keep control flow stable while models and providers change.",
-    tone: "coral",
+    label: "Provider + tools",
+    code: "EXT",
+    description: "The selected capability does the work.",
+  },
+  {
+    label: "Action",
+    code: "OUT",
+    description: "A traceable result returns.",
   },
 ];
 
-const openSourceRepos = [
+const features = [
+  {
+    id: "policy",
+    index: "01",
+    title: "Policy before execution",
+    description:
+      "Evaluate permissions and human checkpoints before a capability can run.",
+  },
+  {
+    id: "routing",
+    index: "02",
+    title: "Routing without lock-in",
+    description:
+      "Choose providers by workload, policy, latency, or cost—not framework constraints.",
+  },
+  {
+    id: "trace",
+    index: "03",
+    title: "A complete execution trace",
+    description:
+      "See every transition from request to action in one ordered timeline.",
+  },
+  {
+    id: "capability",
+    index: "04",
+    title: "Capabilities with contracts",
+    description:
+      "Keep tools small, typed, testable, and reusable across every agent.",
+  },
+];
+
+const repos = [
   {
     name: "@cheela/runtime",
-    description:
-      "Execution engine with policies, routing, retries, and full observability.",
-    badge: "Core",
-    health: 98,
-    icon: Cpu,
+    type: "CORE",
+    description: "Execution engine, policy, routing, retries, and traces.",
   },
   {
     name: "@cheela/provider",
-    description:
-      "Drop-in provider adapters for OpenAI, Anthropic, Gemini, and more.",
-    badge: "Package",
-    health: 93,
-    icon: Network,
+    type: "ADAPTERS",
+    description: "Provider interfaces for OpenAI, Anthropic, Gemini, and more.",
   },
   {
     name: "@cheela/sdk",
-    description:
-      "TypeScript primitives for capabilities, actions, and agent runtimes.",
-    badge: "Package",
-    health: 96,
-    icon: Braces,
+    type: "TYPESCRIPT",
+    description: "Primitives for capabilities, actions, and agent runtimes.",
   },
 ];
 
-const roadmapItems = [
-  ["LIVE", "Fine-grained capability policies"],
-  ["LIVE", "Multi-provider routing with observability"],
+const roadmap = [
+  ["SHIPPING", "Fine-grained capability policies"],
+  ["SHIPPING", "Multi-provider routing with execution traces"],
   ["NEXT", "Human approval checkpoints"],
   ["NEXT", "Reusable runtime templates for teams"],
-  ["LAB", "Enterprise audit export and retention"],
+  ["LATER", "Audit export and retention controls"],
 ];
 
 const faqItems = [
   {
-    question: "Why does Cheela focus on runtime instead of prompting?",
+    question: "Why focus on runtime instead of prompting?",
     answer:
-      "Prompts shape model behavior. A runtime makes the full system reliable by owning policy, routing, tools, retries, and observability around every model call.",
+      "Prompts shape model behavior. A runtime makes the whole system reliable by owning policy, routing, tools, retries, and observability around each call.",
   },
   {
-    question: "Can teams use their own model providers?",
+    question: "Can we use our own model providers?",
     answer:
-      "Yes. Cheela is provider-agnostic, so the model layer can change without forcing the rest of your agent architecture to change with it.",
+      "Yes. Cheela is provider-agnostic. The model layer can change without forcing the rest of the agent architecture to change with it.",
   },
   {
     question: "Is Cheela opinionated about deployment?",
     answer:
-      "It is opinionated about control and reliability, not where you run it. Cheela is designed to fit modern TypeScript and cloud workflows.",
+      "Cheela is opinionated about control and reliability, not where you run it. It is designed to fit modern TypeScript and cloud workflows.",
   },
 ];
 
@@ -219,7 +160,6 @@ const runtime = createRuntime({
   policy: {
     approvals: ["payment", "deletion"],
     maxSteps: 8,
-    trace: true,
   },
 });
 
@@ -230,195 +170,203 @@ export async function handleRequest(input: string) {
   return run.result;
 }`;
 
-function RuntimeOrbital() {
+function BrandMark() {
   return (
-    <div
-      className="hero-visual"
-      role="img"
-      aria-label="Live Cheela runtime visualization"
-    >
-      <div className="visual-chrome">
-        <div className="chrome-dots" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
-        <span>CHEELA://RUNTIME_MAP</span>
-        <span className="live-label">
-          <i aria-hidden="true" />
-          LIVE
-        </span>
-      </div>
-
-      <div className="orbit-stage" aria-hidden="true">
-        <div className="radar-sweep" />
-        <div className="orbit-grid" />
-        <div className="orbit-ring orbit-ring-one">
-          <span className="satellite satellite-one">POLICY</span>
-        </div>
-        <div className="orbit-ring orbit-ring-two">
-          <span className="satellite satellite-two">TOOLS</span>
-          <span className="satellite satellite-three">MODEL</span>
-        </div>
-        <div className="orbit-ring orbit-ring-three" />
-        <div className="runtime-core">
-          <div className="core-pulse" />
-          <Cpu size={24} />
-          <span>CHEELA</span>
-          <small>RUNTIME</small>
-        </div>
-        <span className="data-packet packet-one" />
-        <span className="data-packet packet-two" />
-        <span className="data-packet packet-three" />
-      </div>
-
-      <div className="visual-metrics">
-        <div>
-          <span>ROUTE</span>
-          <strong>14.2ms</strong>
-          <small className="tone-lime">↓ 18%</small>
-        </div>
-        <div>
-          <span>TRACE</span>
-          <strong>100%</strong>
-          <small className="tone-cyan">complete</small>
-        </div>
-        <div>
-          <span>POLICY</span>
-          <strong>08</strong>
-          <small className="tone-violet">active</small>
-        </div>
-      </div>
-    </div>
+    <span className="wordmark">
+      <span aria-hidden="true">C/</span>
+      <span>
+        <strong>CHEELA</strong>
+        <small>RUNTIME SYSTEMS</small>
+      </span>
+    </span>
   );
 }
 
-function RuntimeTrace() {
+function ExecutionBlueprint() {
   return (
-    <article className="runtime-window" data-reveal>
-      <div className="visual-chrome">
-        <div className="chrome-dots" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
-        <span>TRACE://REQ_8F21</span>
-        <span className="live-label">
-          <i aria-hidden="true" />
-          STREAMING
-        </span>
+    <figure className="execution-blueprint" aria-labelledby="blueprint-title">
+      <div className="blueprint-header">
+        <span id="blueprint-title">EXECUTION PLAN / 001</span>
+        <span>SPEC: CURRENT</span>
       </div>
 
-      <div className="trace-telemetry">
-        <div>
-          <Badge tone="lime">System nominal</Badge>
-          <h3>Every decision leaves a signal.</h3>
-          <p>
-            Watch a request move through policy, provider routing, tools, and
-            the final action in real time.
-          </p>
+      <div className="blueprint-stage">
+        <div className="bp-coordinates" aria-hidden="true">
+          <span>00</span>
+          <span>20</span>
+          <span>40</span>
+          <span>60</span>
+          <span>80</span>
         </div>
-        <div className="signal-graph" aria-hidden="true">
-          {[44, 68, 52, 88, 74, 96, 63, 82, 70, 91, 58, 78].map(
-            (height, index) => (
-              <span
-                key={height}
-                style={
-                  {
-                    "--signal-height": `${height}%`,
-                    "--signal-delay": `${index * 0.08}s`,
-                  } as React.CSSProperties
-                }
-              />
-            ),
-          )}
-          <div className="graph-scan" />
+
+        <fieldset className="bp-flow" aria-label="Application to action flow">
+          <div className="bp-node bp-app">
+            <span>01</span>
+            <strong>APPLICATION</strong>
+            <small>request()</small>
+          </div>
+
+          <div className="bp-connector" aria-hidden="true">
+            <span className="bp-packet" />
+          </div>
+
+          <div className="bp-node bp-runtime">
+            <div className="bp-runtime-title">
+              <span>02</span>
+              <strong>CHEELA RUNTIME</strong>
+            </div>
+            <div className="bp-runtime-layers">
+              <span>POLICY</span>
+              <span>ROUTING</span>
+              <span>TRACE</span>
+            </div>
+          </div>
+
+          <div className="bp-connector" aria-hidden="true" />
+
+          <div className="bp-output-stack">
+            <div className="bp-node">
+              <span>03A</span>
+              <strong>PROVIDER</strong>
+            </div>
+            <div className="bp-node">
+              <span>03B</span>
+              <strong>CAPABILITY</strong>
+            </div>
+          </div>
+        </fieldset>
+
+        <div className="bp-result">
+          <span>RETURN</span>
+          <strong>ACTION + TRACE</strong>
+          <small>deterministic boundary</small>
         </div>
       </div>
 
-      <ol className="pipeline-track" aria-label="Execution pipeline">
+      <figcaption>
+        <span>ONE REQUEST</span>
+        <span>ONE EXECUTION CONTRACT</span>
+        <span>ONE COMPLETE TRACE</span>
+      </figcaption>
+    </figure>
+  );
+}
+
+function FailureStack() {
+  return (
+    <fieldset
+      className="failure-stack"
+      aria-label="Common agent failure pattern"
+    >
+      <div className="failure-label">CURRENT STATE</div>
+      {[
+        ["PROMPT", "business logic"],
+        ["GLUE", "routing + retries"],
+        ["TOOL", "permissions"],
+        ["LOGS", "partial context"],
+      ].map(([name, issue], index) => (
+        <div className="failure-row" key={name}>
+          <span>0{index + 1}</span>
+          <strong>{name}</strong>
+          <small>{issue}</small>
+          <i aria-hidden="true">{index % 2 === 0 ? "↘" : "↗"}</i>
+        </div>
+      ))}
+      <div className="failure-output">
+        <span>RESULT</span>
+        <strong>UNKNOWN STATE</strong>
+      </div>
+    </fieldset>
+  );
+}
+
+function ArchitectureMap() {
+  return (
+    <div className="architecture-map">
+      <div className="architecture-ruler" aria-hidden="true">
+        <span>IN</span>
+        <span>CONTROL PLANE</span>
+        <span>OUT</span>
+      </div>
+      <ol>
         {architectureSteps.map((step, index) => (
           <li
-            key={step.name}
-            className={step.name === "Runtime" ? "is-runtime" : ""}
+            key={step.label}
+            className={step.code === "RUN" ? "architecture-runtime" : ""}
           >
-            <span className="pipeline-index">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <span className="pipeline-node">
-              <i aria-hidden="true" />
-            </span>
-            <strong>{step.short}</strong>
-            <small>{step.name}</small>
+            <span className="architecture-code">{step.code}</span>
+            <strong>{step.label}</strong>
+            <p>{step.description}</p>
+            <small>0{index + 1}</small>
+            {index < architectureSteps.length - 1 ? (
+              <i className="architecture-link" aria-hidden="true">
+                <span className={index === 1 ? "architecture-packet" : ""} />
+              </i>
+            ) : null}
           </li>
         ))}
       </ol>
-
-      <div className="trace-events">
-        <p>
-          <span className="tone-cyan">12:42:08.104</span>
-          <span>provider.route</span>
-          <strong>anthropic/claude</strong>
-          <small className="tone-lime">PASS</small>
-        </p>
-        <p>
-          <span className="tone-cyan">12:42:08.118</span>
-          <span>policy.evaluate</span>
-          <strong>capability.search</strong>
-          <small className="tone-lime">ALLOW</small>
-        </p>
-        <p>
-          <span className="tone-cyan">12:42:08.267</span>
-          <span>action.complete</span>
-          <strong>149ms total</strong>
-          <small className="tone-violet">TRACED</small>
-        </p>
-      </div>
-    </article>
-  );
-}
-
-function FaultGraphic() {
-  return (
-    <div className="fault-graphic" aria-hidden="true">
-      <div className="fault-grid">
-        {[62, 48, 78, 36, 86, 30, 94, 42, 70].map((height, index) => (
-          <span
-            key={height}
-            className={index > 4 ? "is-fault" : ""}
-            style={{ height: `${height}%` }}
-          />
-        ))}
-      </div>
-      <div className="fault-callout">
-        <Zap size={15} />
-        POLICY GAP DETECTED
-      </div>
-      <div className="fault-footer">
-        <span>UNTRACED CALLS</span>
-        <strong>37.8%</strong>
+      <div className="architecture-legend">
+        <span>
+          <i /> request path
+        </span>
+        <span>RUN = runtime control boundary</span>
+        <span>TRACE_ID: 7A21-C</span>
       </div>
     </div>
   );
 }
 
-function NetworkGraphic() {
-  return (
-    <div className="network-graphic" aria-hidden="true">
-      <div className="network-grid" />
-      <div className="network-beam beam-one" />
-      <div className="network-beam beam-two" />
-      <div className="network-beam beam-three" />
-      <div className="network-node node-app">APP</div>
-      <div className="network-node node-agent">AGENT</div>
-      <div className="network-node node-runtime">
-        <Cpu size={19} />
-        RUNTIME
+function FeatureGraphic({ type }: { type: string }) {
+  if (type === "policy") {
+    return (
+      <div className="micro-graphic micro-policy" aria-hidden="true">
+        <span>read:customer</span>
+        <i>ALLOW</i>
+        <span>delete:account</span>
+        <i>REVIEW</i>
+        <span>send:payment</span>
+        <i>DENY</i>
       </div>
-      <div className="network-node node-model">MODEL</div>
-      <div className="network-node node-tools">TOOLS</div>
-      <span className="network-packet net-packet-one" />
-      <span className="network-packet net-packet-two" />
+    );
+  }
+
+  if (type === "routing") {
+    return (
+      <div className="micro-graphic micro-routing" aria-hidden="true">
+        <span>REQUEST</span>
+        <i>→</i>
+        <div>
+          <b>MODEL A</b>
+          <b>MODEL B</b>
+          <b>MODEL C</b>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "trace") {
+    return (
+      <div className="micro-graphic micro-trace" aria-hidden="true">
+        {[18, 42, 28, 66, 38, 84, 54, 92].map((height) => (
+          <i key={height} style={{ height: `${height}%` }} />
+        ))}
+        <span />
+      </div>
+    );
+  }
+
+  return (
+    <div className="micro-graphic micro-capability" aria-hidden="true">
+      <span>{"{"}</span>
+      <div>
+        <b>input:</b> typed
+        <br />
+        <b>policy:</b> attached
+        <br />
+        <b>output:</b> traced
+      </div>
+      <span>{"}"}</span>
     </div>
   );
 }
@@ -429,18 +377,21 @@ export function LandingPage() {
 
   useEffect(() => {
     if (!menuOpen) return;
+
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
     };
+
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen]);
 
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
     if (!("IntersectionObserver" in window)) {
       elements.forEach((element) => {
-        element.classList.add("reveal-visible");
+        element.classList.add("is-visible");
       });
       return;
     }
@@ -449,279 +400,181 @@ export function LandingPage() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("reveal-visible");
+            entry.target.classList.add("is-visible");
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.12 },
+      { threshold: 0.08 },
     );
 
     elements.forEach((element) => {
       observer.observe(element);
     });
+
     return () => observer.disconnect();
   }, []);
 
   return (
     <div className="site-shell">
-      <div className="ambient-field" aria-hidden="true">
-        <span className="ambient-orb ambient-orb-one" />
-        <span className="ambient-orb ambient-orb-two" />
-        <span className="ambient-orb ambient-orb-three" />
-      </div>
-
       <header className="site-header">
         <Container>
-          <nav aria-label="Primary navigation">
-            <div className="nav-row">
-              <a href="#top" className="brand-lockup">
-                <span className="brand-mark" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                <span>
-                  <strong>CHEELA</strong>
-                  <small>AGENT RUNTIME</small>
-                </span>
-              </a>
+          <nav className="site-nav" aria-label="Primary navigation">
+            <a href="#top" aria-label="Cheela home">
+              <BrandMark />
+            </a>
 
-              <div className="desktop-links">
-                {navLinks.map((item) => (
-                  <a key={item.label} href={item.href}>
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-
-              <div className="desktop-actions">
-                <Button
-                  variant="ghost"
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://github.com/Cheela-Labs/platform"
-                >
-                  <span aria-hidden="true">↗</span>
-                  GitHub
-                </Button>
-                <Button onClick={() => setWaitlistOpen(true)}>
-                  Get early access
-                  <ArrowUpRight size={15} />
-                </Button>
-              </div>
-
-              <button
-                type="button"
-                className="mobile-menu-button"
-                aria-label={
-                  menuOpen ? "Close navigation menu" : "Open navigation menu"
-                }
-                aria-expanded={menuOpen}
-                aria-controls="mobile-navigation"
-                onClick={() => setMenuOpen((current) => !current)}
-              >
-                {menuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
+            <div className="nav-links">
+              {navLinks.map((item) => (
+                <a key={item.label} href={item.href}>
+                  {item.label}
+                </a>
+              ))}
             </div>
 
-            {menuOpen ? (
-              <div id="mobile-navigation" className="mobile-navigation">
-                {navLinks.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span>↳</span>
-                    {item.label}
-                  </a>
-                ))}
-                <a
-                  href="https://github.com/Cheela-Labs/platform"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span>↳</span>
-                  GitHub
-                </a>
-                <Button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setWaitlistOpen(true);
-                  }}
-                >
-                  Get early access
-                </Button>
-              </div>
-            ) : null}
+            <div className="nav-actions">
+              <a
+                href="https://github.com/Cheela-Labs"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub ↗
+              </a>
+              <Button onClick={() => setWaitlistOpen(true)}>Get access</Button>
+            </div>
+
+            <button
+              type="button"
+              className="menu-toggle"
+              onClick={() => setMenuOpen((current) => !current)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+            >
+              {menuOpen ? "CLOSE ×" : "MENU +"}
+            </button>
           </nav>
+
+          {menuOpen ? (
+            <div id="mobile-menu" className="mobile-menu">
+              {navLinks.map((item, index) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>0{index + 1}</span>
+                  {item.label}
+                </a>
+              ))}
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setWaitlistOpen(true);
+                }}
+              >
+                05 / GET ACCESS
+              </button>
+            </div>
+          ) : null}
         </Container>
       </header>
 
       <main>
-        <section id="top" className="hero-section">
+        <section className="hero" id="top">
           <Container>
-            <div className="hero-layout">
+            <div className="hero-grid">
               <div className="hero-copy" data-reveal>
-                <Badge tone="cyan">
-                  <Sparkles size={13} />
-                  Infrastructure for reliable AI agents
-                </Badge>
-
-                <p className="hero-terminal-line" aria-hidden="true">
-                  <span>cheela@runtime</span>:~$ initialize --production
-                  <i className="terminal-cursor">█</i>
-                </p>
-
+                <Badge tone="coral">Agent infrastructure / v0.1</Badge>
                 <h1>
-                  Agents need
+                  The runtime
                   <br />
-                  <span>a runtime.</span>
+                  <span>is the product.</span>
                 </h1>
-                <p className="hero-description">
-                  Cheela sits between your application and every model, making
-                  agent execution observable, predictable, and controllable.
+                <p>
+                  Cheela turns agent execution into a system your team can
+                  inspect, control, and maintain—not another layer of prompt
+                  glue.
                 </p>
-
                 <div className="hero-actions">
                   <Button onClick={() => setWaitlistOpen(true)}>
-                    Start building
-                    <ArrowUpRight size={16} />
+                    Start building ↗
                   </Button>
                   <Button variant="secondary" href="#architecture">
-                    <CircleDot size={15} />
-                    Explore the runtime
+                    Read the execution plan
                   </Button>
                 </div>
-
-                <div className="hero-proof">
-                  <div className="proof-avatars" aria-hidden="true">
-                    <span>TS</span>
-                    <span>PY</span>
-                    <span>JS</span>
-                  </div>
-                  <p>
-                    <strong>Provider agnostic.</strong>
-                    <br />
-                    Built for production teams.
-                  </p>
+                <div className="hero-command">
+                  <span>$</span>
+                  <code>npx cheela init support-agent</code>
+                  <i className="terminal-cursor" aria-hidden="true">
+                    █
+                  </i>
                 </div>
               </div>
 
-              <div className="hero-graphic-wrap" data-reveal>
-                <RuntimeOrbital />
+              <div data-reveal>
+                <ExecutionBlueprint />
               </div>
             </div>
-
-            <div className="principle-grid" data-reveal>
-              {principles.map((principle, index) => (
-                <article key={principle.title}>
-                  <div className="principle-topline">
-                    <span>0{index + 1}</span>
-                    <strong>{principle.title}</strong>
-                    <i aria-hidden="true" />
-                  </div>
-                  <div className="principle-metric">
-                    <strong>{principle.value}</strong>
-                    <span>{principle.label}</span>
-                  </div>
-                  <p>{principle.description}</p>
-                </article>
-              ))}
-            </div>
           </Container>
+
+          <section className="system-strip" aria-label="Supported providers">
+            <div>
+              <span>RUNTIME STATUS: ACTIVE</span>
+              <span>OPENAI</span>
+              <span>ANTHROPIC</span>
+              <span>GEMINI</span>
+              <span>ANY PROVIDER</span>
+              <span>POLICY: ATTACHED</span>
+              <span>TRACE: COMPLETE</span>
+              <span aria-hidden="true">RUNTIME STATUS: ACTIVE</span>
+              <span aria-hidden="true">OPENAI</span>
+              <span aria-hidden="true">ANTHROPIC</span>
+              <span aria-hidden="true">GEMINI</span>
+              <span aria-hidden="true">ANY PROVIDER</span>
+            </div>
+          </section>
         </section>
 
         <Section
           id="problem"
           eyebrow="01 / Problem"
-          title="Agent systems fail when execution goes dark."
-          description="Teams can prototype quickly. Reliability collapses when policy, routing, retries, and tool execution live in different places."
+          title="A prompt is not an operating model."
+          description="When runtime concerns are scattered across prompts, application code, and provider SDKs, no one owns the complete execution."
         >
-          <div className="split-layout">
-            <Card label="Signal loss" className="overflow-hidden" data-reveal>
-              <div className="content-graphic-grid">
-                <div>
-                  <Badge tone="coral">
-                    <Activity size={13} />
-                    Structural failure
-                  </Badge>
-                  <h3 className="card-heading">
-                    The model is only one part of the system.
-                  </h3>
-                  <p className="card-copy">
-                    Business logic disappears into prompts, observability
-                    arrives too late, and every provider change introduces new
-                    regressions.
-                  </p>
-                  <ul className="signal-list">
-                    {[
-                      "Output is not the same as execution intent.",
-                      "Model calls need a runtime contract.",
-                      "Policy cannot be scattered across the app.",
-                    ].map((item) => (
-                      <li key={item}>
-                        <X size={14} />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <FaultGraphic />
-              </div>
-            </Card>
-
-            <Card label="Recovered signal" className="outcome-card" data-reveal>
-              <div className="outcome-orbit" aria-hidden="true">
-                <span />
-                <span />
-                <ShieldCheck size={30} />
-              </div>
-              <h3 className="card-heading">
-                One observable layer changes the equation.
-              </h3>
-              <p className="card-copy">
-                Reliability becomes measurable, reviewable, and repeatable
-                across every deployment.
+          <div className="problem-grid">
+            <div className="problem-statement" data-reveal>
+              <p className="statement-mark" aria-hidden="true">
+                ≠
               </p>
-              <div className="outcome-status">
-                <span>
-                  <Check size={13} /> policies
-                </span>
-                <span>
-                  <Check size={13} /> routing
-                </span>
-                <span>
-                  <Check size={13} /> traces
-                </span>
-              </div>
-            </Card>
+              <blockquote>
+                Prototype speed hides production complexity.
+              </blockquote>
+              <p>
+                Model output, execution intent, permissions, retries, and
+                business state are different things. Treating them as one is
+                where reliability breaks.
+              </p>
+            </div>
+            <FailureStack />
           </div>
         </Section>
 
         <Section
-          id="solution"
-          eyebrow="02 / Runtime"
-          title="Minimal APIs. Maximum signal."
-          description="Opinionated where reliability matters. Flexible everywhere else."
+          id="runtime"
+          eyebrow="02 / Runtime principles"
+          title="Small surface. Clear responsibility."
+          description="Cheela owns the part between product intent and model or tool execution."
+          className="paper-section"
         >
-          <div className="solution-grid">
-            {solutionItems.map((item) => (
-              <article
-                key={item.label}
-                className={`solution-tile tile-${item.tone}`}
-                data-reveal
-              >
-                <div className="solution-orbit" aria-hidden="true">
-                  <span />
-                  <span />
-                </div>
-                <span className="solution-metric">{item.metric}</span>
-                <h3>{item.label}</h3>
-                <p>{item.text}</p>
-                <div className="solution-line" aria-hidden="true" />
+          <div className="principle-list">
+            {principles.map((principle) => (
+              <article key={principle.number} data-reveal>
+                <span>{principle.number}</span>
+                <h3>{principle.title}</h3>
+                <p>{principle.description}</p>
+                <small>{principle.note}</small>
               </article>
             ))}
           </div>
@@ -730,233 +583,151 @@ export function LandingPage() {
         <Section
           id="architecture"
           eyebrow="03 / Architecture"
-          title="Execution you can actually see."
-          description="Every request moves through one explicit path—from application intent to a traceable action."
+          title="One explicit execution path."
+          description="The runtime is a boundary, not a black box. Every request passes through the same inspectable sequence."
         >
-          <RuntimeTrace />
-
-          <div className="architecture-grid">
-            <Card label="Runtime topology" data-reveal>
-              <NetworkGraphic />
-            </Card>
-            <Card label="Execution contract" data-reveal>
-              <ol className="architecture-list">
-                {architectureSteps.map((step, index) => (
-                  <li key={step.name}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <div>
-                      <strong>{step.name}</strong>
-                      <small>{step.description}</small>
-                    </div>
-                    <i className={index < 4 ? "is-complete" : ""}>
-                      {index < 4 ? <Check size={13} /> : null}
-                    </i>
-                  </li>
-                ))}
-              </ol>
-            </Card>
-          </div>
+          <ArchitectureMap />
         </Section>
 
         <Section
           id="features"
           eyebrow="04 / Capabilities"
-          title="Reliability is the feature."
-          description="Each part of the platform reinforces engineering clarity, execution control, and production confidence."
+          title="Built around operating concerns."
+          description="No magic. Just the controls engineering teams need when agents move beyond demos."
         >
           <div className="feature-grid">
-            {featureCards.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <Card
-                  key={feature.title}
-                  label={`MOD-${String(index + 1).padStart(2, "0")}`}
-                  className={`feature-card tile-${feature.tone}`}
-                  data-reveal
-                >
-                  <div className="feature-icon">
-                    <Icon size={22} />
-                    <span aria-hidden="true" />
-                  </div>
-                  <div className="feature-code">{feature.code}</div>
-                  <h3>{feature.title}</h3>
-                  <p>{feature.description}</p>
-                  <div className="feature-footer">
-                    <span>STATUS</span>
-                    <strong>
-                      <i aria-hidden="true" /> ACTIVE
-                    </strong>
-                  </div>
-                </Card>
-              );
-            })}
+            {features.map((feature) => (
+              <Card
+                key={feature.id}
+                className={`feature-panel feature-${feature.id}`}
+                data-reveal
+              >
+                <div className="feature-meta">
+                  <span>{feature.index}</span>
+                  <small>RUNTIME MODULE</small>
+                </div>
+                <FeatureGraphic type={feature.id} />
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </Card>
+            ))}
           </div>
         </Section>
 
         <Section
-          id="developer-experience"
+          id="developers"
           eyebrow="05 / Developer experience"
-          title="Real TypeScript. Live telemetry."
-          description="Documentation that reads like production code, paired with the signals you need to trust it."
+          title="Code that explains the system."
+          description="A compact API on one side. A complete execution record on the other."
+          className="paper-section developer-section"
         >
-          <div className="developer-layout">
+          <div className="developer-grid">
             <CodeBlock
               title="createAgentRuntime.ts"
               language="TypeScript"
               copyText={runtimeCode}
-              className="developer-code"
             >
               {runtimeCode}
             </CodeBlock>
 
-            <div className="developer-console" data-reveal>
-              <div className="visual-chrome">
-                <div className="chrome-dots" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <span>RUN://LATEST</span>
-                <span className="tone-lime">SUCCESS</span>
+            <div className="trace-sheet" data-reveal>
+              <div className="trace-sheet-header">
+                <span>EXECUTION TRACE</span>
+                <span>ID / 7A21-C</span>
               </div>
-              <div className="console-score">
-                <div className="score-ring">
-                  <strong>98</strong>
-                  <span>/100</span>
-                </div>
-                <div>
-                  <Badge tone="lime">Healthy run</Badge>
-                  <h3>Production ready</h3>
-                  <p>All policies passed. No retries required.</p>
-                </div>
-              </div>
-              <div className="console-bars">
+              <ol>
                 {[
-                  ["Policy checks", "8 / 8", 100, "lime"],
-                  ["Trace coverage", "100%", 100, "cyan"],
-                  ["Provider health", "96%", 96, "violet"],
-                  ["Token budget", "42%", 42, "coral"],
-                ].map(([label, value, width, tone]) => (
-                  <div key={label}>
-                    <p>
-                      <span>{label}</span>
-                      <strong>{value}</strong>
-                    </p>
-                    <i>
-                      <span
-                        className={`tone-bg-${tone}`}
-                        style={{ width: `${width}%` }}
-                      />
-                    </i>
-                  </div>
+                  ["00:00.000", "runtime.start", "support-agent"],
+                  ["00:00.006", "policy.check", "search / allow"],
+                  ["00:00.014", "provider.route", "anthropic"],
+                  ["00:00.742", "capability.run", "search"],
+                  ["00:00.901", "runtime.finish", "action returned"],
+                ].map(([time, event, value], index) => (
+                  <li key={event}>
+                    <span>{time}</span>
+                    <i aria-hidden="true">{index === 4 ? "■" : "□"}</i>
+                    <strong>{event}</strong>
+                    <small>{value}</small>
+                  </li>
                 ))}
-              </div>
-              <div className="console-log">
-                <p>
-                  <span>✓</span> runtime initialized
-                </p>
-                <p>
-                  <span>✓</span> capabilities registered
-                </p>
-                <p>
-                  <span>✓</span> trace exported
-                </p>
+              </ol>
+              <div className="trace-summary">
+                <span>POLICIES 01/01</span>
+                <span>RETRIES 00</span>
+                <span>STEPS 05</span>
+                <strong>COMPLETE</strong>
               </div>
             </div>
           </div>
         </Section>
 
         <Section
-          id="developer-platform"
+          id="open-source"
           eyebrow="06 / Open source"
-          title="Engineering should be visible."
-          description="Trust comes from transparent engineering, clear documentation, and code you can inspect."
+          title="Inspect the infrastructure."
+          description="The runtime, adapters, and SDK are built in the open."
         >
-          <div className="repo-grid">
-            {openSourceRepos.map((repo, index) => {
-              const Icon = repo.icon;
-              return (
-                <Card
-                  key={repo.name}
-                  label={`PKG-${String(index + 1).padStart(2, "0")}`}
-                  className="repo-card"
-                  data-reveal
-                >
-                  <div className="repo-topline">
-                    <span className="repo-icon">
-                      <Icon size={19} />
-                    </span>
-                    <Badge tone={index === 0 ? "violet" : "cyan"}>
-                      {repo.badge}
-                    </Badge>
-                  </div>
-                  <h3>{repo.name}</h3>
-                  <p>{repo.description}</p>
-                  <div className="repo-health">
-                    <p>
-                      <span>PACKAGE HEALTH</span>
-                      <strong>{repo.health}%</strong>
-                    </p>
-                    <i>
-                      <span style={{ width: `${repo.health}%` }} />
-                    </i>
-                  </div>
-                  <a href="https://github.com/Cheela-Labs">
-                    View package <ArrowUpRight size={14} />
-                  </a>
-                </Card>
-              );
-            })}
+          <div className="repo-list" data-reveal>
+            <div className="repo-list-header">
+              <span>PACKAGE</span>
+              <span>TYPE</span>
+              <span>DESCRIPTION</span>
+              <span>LINK</span>
+            </div>
+            {repos.map((repo, index) => (
+              <a
+                href="https://github.com/Cheela-Labs"
+                key={repo.name}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>0{index + 1}</span>
+                <strong>{repo.name}</strong>
+                <small>{repo.type}</small>
+                <p>{repo.description}</p>
+                <i>↗</i>
+              </a>
+            ))}
           </div>
         </Section>
 
         <Section
           id="roadmap"
           eyebrow="07 / Roadmap"
-          title="Grow the runtime, not the complexity."
-          description="Every release strengthens reliability, observability, and developer experience."
+          title="Add capability, not complexity."
+          description="The roadmap is ordered by operational value."
         >
-          <div className="roadmap-layout">
-            <Card label="Signal" className="roadmap-intro" data-reveal>
-              <Radar size={28} />
-              <h3 className="card-heading">
-                A stable runtime for production agents.
-              </h3>
-              <p className="card-copy">
-                New capabilities enter the system only when they strengthen the
-                execution contract.
+          <div className="roadmap-grid">
+            <div className="roadmap-note" data-reveal>
+              <span>WORKING PRINCIPLE</span>
+              <p>
+                If a feature does not make execution more legible or
+                controllable, it does not belong in the runtime.
               </p>
-              <div className="radar-mini" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-                <i />
-              </div>
-            </Card>
-
-            <Card label="Release queue" data-reveal>
-              <ol className="roadmap-list">
-                {roadmapItems.map(([status, item], index) => (
-                  <li key={item}>
-                    <span>0{index + 1}</span>
-                    <strong>{item}</strong>
-                    <small className={`status-${status.toLowerCase()}`}>
-                      {status}
-                    </small>
-                  </li>
-                ))}
-              </ol>
-            </Card>
+              <small>CHEELA / PRODUCT NOTE 004</small>
+            </div>
+            <ol className="roadmap-list" data-reveal>
+              {roadmap.map(([status, item], index) => (
+                <li key={item}>
+                  <span>0{index + 1}</span>
+                  <strong>{item}</strong>
+                  <small className={`roadmap-${status.toLowerCase()}`}>
+                    {status}
+                  </small>
+                </li>
+              ))}
+            </ol>
           </div>
         </Section>
 
         <Section
           id="faq"
           eyebrow="08 / FAQ"
-          title="Questions engineering teams ask."
-          description="Direct answers about the runtime, architecture, and operating model."
+          title="The direct answers."
+          description="What engineering teams usually ask first."
+          className="paper-section"
         >
-          <div className="faq-grid">
+          <div className="faq-list">
             {faqItems.map((item, index) => (
               <details key={item.question} data-reveal>
                 <summary>
@@ -970,60 +741,47 @@ export function LandingPage() {
           </div>
         </Section>
 
-        <Section id="cta" className="cta-section">
-          <div className="cta-panel" data-reveal>
-            <div className="cta-grid" aria-hidden="true" />
-            <div className="cta-orbit cta-orbit-one" aria-hidden="true" />
-            <div className="cta-orbit cta-orbit-two" aria-hidden="true" />
-            <div className="cta-copy">
-              <Badge tone="lime">
-                <Workflow size={13} />
-                Runtime online
-              </Badge>
-              <h2>Build agents your team can trust.</h2>
-              <p>
-                Ship AI systems your team can understand, inspect, and evolve
-                over time.
-              </p>
-              <div className="hero-actions">
-                <Button onClick={() => setWaitlistOpen(true)}>
-                  Get early access
-                  <ArrowUpRight size={16} />
-                </Button>
-                <Button variant="secondary" href="#developer-experience">
-                  Read the code
-                </Button>
+        <section id="cta" className="cta">
+          <Container>
+            <div className="cta-grid">
+              <div data-reveal>
+                <Badge tone="coral">Early access</Badge>
+                <h2>Build the runtime before the workaround.</h2>
+                <p>
+                  Ship agent systems your team can understand, inspect, and
+                  evolve.
+                </p>
+                <div className="hero-actions">
+                  <Button onClick={() => setWaitlistOpen(true)}>
+                    Join the waitlist ↗
+                  </Button>
+                  <Button variant="secondary" href="#developers">
+                    Read the code
+                  </Button>
+                </div>
+              </div>
+              <div className="cta-side">
+                <WaitlistCount />
+                <div className="cta-ascii" aria-hidden="true">
+                  <pre>{`┌──────────────────┐
+│  REQUEST         │
+│     ↓            │
+│  [ RUNTIME ]     │
+│     ↓            │
+│  ACTION + TRACE  │
+└──────────────────┘`}</pre>
+                </div>
               </div>
             </div>
-            <div className="cta-stats">
-              <WaitlistCount />
-              <div className="cta-status-row">
-                <span>
-                  <i className="tone-bg-lime" /> Core runtime
-                </span>
-                <strong>OPERATIONAL</strong>
-              </div>
-            </div>
-          </div>
-        </Section>
+          </Container>
+        </section>
       </main>
 
       <footer className="site-footer">
         <Container>
           <div className="footer-grid">
             <div>
-              <a href="#top" className="brand-lockup">
-                <span className="brand-mark" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                <span>
-                  <strong>CHEELA</strong>
-                  <small>AGENT RUNTIME</small>
-                </span>
-              </a>
+              <BrandMark />
               <p>Runtime infrastructure for reliable AI agents.</p>
             </div>
             <nav aria-label="Footer navigation">
@@ -1033,11 +791,9 @@ export function LandingPage() {
                 </a>
               ))}
             </nav>
-            <div className="footer-status">
-              <span>
-                <i /> ALL SYSTEMS OPERATIONAL
-              </span>
-              <small>© 2026 CHEELA LABS</small>
+            <div className="footer-meta">
+              <span>CHEELA LABS / 2026</span>
+              <span>BUILD SYSTEMS, NOT DEMOS.</span>
             </div>
           </div>
         </Container>

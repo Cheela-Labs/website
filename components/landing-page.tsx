@@ -287,10 +287,10 @@ export function LandingPage() {
               </div>
               <div>
                 <div className="text-sm font-medium tracking-[0.16em] uppercase text-white">
-                  Cheela
+                  Cheela Labs
                 </div>
                 <div className="text-xs text-[var(--muted)]">
-                  Reliable agent runtime
+                  Make your website AI native
                 </div>
               </div>
             </a>

@@ -1,7 +1,5 @@
 "use client";
 
-import { CheckCircle2, Loader2, Sparkles, X } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import { type FormEvent, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -27,40 +25,64 @@ const initialFormState: FormState = {
 type SubmissionStatus = "idle" | "loading" | "success" | "error";
 
 export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
   const titleId = useId();
   const descriptionId = useId();
-  const reducedMotion = useReducedMotion();
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(initialFormState);
 
   useEffect(() => {
-    if (!open) {
-      return;
-    }
+    if (!open) return;
+
+    returnFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onOpenChange(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          "button:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href]",
+        ) ?? [],
+      );
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
+    window.requestAnimationFrame(() => emailRef.current?.focus());
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      returnFocusRef.current?.focus();
     };
   }, [open, onOpenChange]);
-
-  useEffect(() => {
-    if (open) {
-      window.requestAnimationFrame(() => {
-        emailRef.current?.focus();
-      });
-    }
-  }, [open]);
 
   useEffect(() => {
     if (!open) {
@@ -74,9 +96,7 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (status === "loading") {
-      return;
-    }
+    if (status === "loading") return;
 
     setStatus("loading");
     setError(null);
@@ -90,12 +110,10 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
         body: JSON.stringify(form),
       });
 
-      const payload = (await response.json().catch(() => null)) as
-        | {
-            error?: string;
-            message?: string;
-          }
-        | null;
+      const payload = (await response.json().catch(() => null)) as {
+        error?: string;
+        message?: string;
+      } | null;
 
       if (!response.ok) {
         throw new Error(payload?.error ?? "Unable to join the waitlist.");
@@ -114,43 +132,49 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
     }
   }
 
-  function closeModal() {
-    onOpenChange(false);
-  }
-
-  if (!open) {
-    return null;
-  }
+  if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center px-3 py-5 sm:px-6 sm:py-8">
       <button
         type="button"
         aria-label="Close waitlist modal"
-        className="absolute inset-0 cursor-default bg-black/80 backdrop-blur-xl"
-        onClick={closeModal}
+        className="absolute inset-0 cursor-default bg-black/90"
+        onClick={() => onOpenChange(false)}
       />
 
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className="relative z-10 w-[min(92vw,760px)] overflow-hidden rounded-[32px] border border-[var(--border)] bg-[#0b0b0b] text-white shadow-[0_40px_140px_rgba(0,0,0,0.55)]"
+        className="relative z-10 max-h-[calc(100vh-2.5rem)] w-[min(94vw,760px)] overflow-y-auto border-4 border-double border-[var(--primary)] bg-[var(--background)] text-[var(--foreground)]"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,160,23,0.18),transparent_42%)]" />
-        <div className="relative p-6 sm:p-8">
-          <div className="flex items-start justify-between gap-4">
+        <div className="border-b border-[var(--border)] px-4 py-3 text-xs uppercase tracking-[0.16em] text-[var(--primary)] sm:px-6">
+          <span aria-hidden="true">┌─[ </span>
+          JOIN WAITLIST
+          <span aria-hidden="true"> ]</span>
+        </div>
+
+        <div className="p-5 sm:p-8">
+          <div className="flex items-start justify-between gap-5">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(212,160,23,0.28)] bg-[rgba(212,160,23,0.08)] px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] text-[var(--primary)]">
-                <Sparkles className="size-3.5" />
-                Join waitlist
-              </div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+                STATUS://EARLY_ACCESS
+              </p>
               <h2
                 id={titleId}
-                className="text-3xl font-medium tracking-[-0.05em] sm:text-4xl"
+                className="text-2xl font-semibold tracking-[-0.04em] sm:text-4xl"
               >
+                <span aria-hidden="true" className="text-[var(--muted)]">
+                  =={" "}
+                </span>
                 Get early access to Cheela.
+                <span aria-hidden="true" className="text-[var(--muted)]">
+                  {" "}
+                  ==
+                </span>
               </h2>
               <p
                 id={descriptionId}
@@ -162,44 +186,27 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
             </div>
             <button
               type="button"
-              onClick={closeModal}
-              className="inline-flex size-10 items-center justify-center rounded-full border border-[var(--border)] bg-white/[0.03] text-white transition hover:border-[rgba(228,179,40,0.28)] hover:bg-white/[0.06]"
+              onClick={() => onOpenChange(false)}
+              className="shrink-0 px-2 py-2 text-sm font-semibold text-[var(--muted)] transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)]"
               aria-label="Close modal"
             >
-              <X className="size-4" />
+              <span aria-hidden="true">[ X ]</span>
             </button>
           </div>
 
           {status === "success" ? (
-            <div className="flex flex-col items-center gap-6 py-16 text-center">
-              <motion.div
-                initial={reducedMotion ? { opacity: 1 } : { scale: 0.78, opacity: 0 }}
-                animate={reducedMotion ? { opacity: 1 } : { scale: 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 180, damping: 18 }}
-                className="relative flex size-24 items-center justify-center rounded-full border border-[rgba(212,160,23,0.3)] bg-[rgba(212,160,23,0.08)]"
+            <output className="flex flex-col items-center gap-6 py-14 text-center">
+              <div
+                aria-hidden="true"
+                className="border border-[var(--primary)] px-5 py-4 text-4xl font-semibold text-[var(--primary)]"
               >
-                <motion.div
-                  aria-hidden
-                  className="absolute inset-0 rounded-full border border-[rgba(212,160,23,0.22)]"
-                  animate={
-                    reducedMotion
-                      ? undefined
-                      : { scale: [1, 1.12, 1], opacity: [0.5, 0.15, 0.5] }
-                  }
-                  transition={
-                    reducedMotion
-                      ? undefined
-                      : {
-                          duration: 2.8,
-                          repeat: Number.POSITIVE_INFINITY,
-                          ease: "easeInOut",
-                        }
-                  }
-                />
-                <CheckCircle2 className="size-12 text-[var(--primary)]" />
-              </motion.div>
+                [ OK ]
+              </div>
               <div className="space-y-3">
-                <h3 className="text-2xl font-medium tracking-[-0.04em]">
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--primary)]">
+                  STATUS: ACCEPTED
+                </p>
+                <h3 className="text-2xl font-semibold tracking-[-0.04em]">
                   You&apos;re on the list.
                 </h3>
                 <p className="text-[15px] leading-7 text-[var(--muted)]">
@@ -207,109 +214,128 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
                   updated as Cheela opens up.
                 </p>
                 {successMessage ? (
-                  <p className="text-sm text-[var(--muted)]">{successMessage}</p>
+                  <p className="text-sm text-[var(--muted)]">
+                    {successMessage}
+                  </p>
                 ) : null}
               </div>
-              <Button variant="primary" onClick={closeModal} className="min-w-40">
-                Done
-              </Button>
-            </div>
+              <Button onClick={() => onOpenChange(false)}>Done</Button>
+            </output>
           ) : (
-            <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="space-y-2 sm:col-span-1">
-                  <span className="text-sm font-medium text-white">Name</span>
-                  <input
-                    type="text"
-                    value={form.name}
-                    onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        name: event.target.value,
-                      }))
-                    }
-                    placeholder="Your name"
-                    className="w-full rounded-[16px] border border-[var(--border)] bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(228,179,40,0.35)] focus:ring-2 focus:ring-[rgba(228,179,40,0.12)]"
-                  />
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+              <div className="grid gap-5 min-[769px]:grid-cols-2">
+                <label className="block space-y-2">
+                  <span className="text-sm font-semibold text-[var(--foreground)]">
+                    Name
+                  </span>
+                  <span className="flex items-center border border-[var(--border)] px-3 text-[var(--muted)] focus-within:border-[var(--primary)] focus-within:text-[var(--primary)]">
+                    <span aria-hidden="true">[</span>
+                    <input
+                      type="text"
+                      value={form.name}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          name: event.target.value,
+                        }))
+                      }
+                      placeholder="Your name"
+                      className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)]"
+                    />
+                    <span aria-hidden="true">]</span>
+                  </span>
                 </label>
-                <label className="space-y-2 sm:col-span-1">
-                  <span className="text-sm font-medium text-white">Email *</span>
-                  <input
-                    ref={emailRef}
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        email: event.target.value,
-                      }))
-                    }
-                    placeholder="you@company.com"
-                    className="w-full rounded-[16px] border border-[var(--border)] bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(228,179,40,0.35)] focus:ring-2 focus:ring-[rgba(228,179,40,0.12)]"
-                  />
+
+                <label className="block space-y-2">
+                  <span className="text-sm font-semibold text-[var(--foreground)]">
+                    Email *
+                  </span>
+                  <span className="flex items-center border border-[var(--border)] px-3 text-[var(--muted)] focus-within:border-[var(--primary)] focus-within:text-[var(--primary)]">
+                    <span aria-hidden="true">[</span>
+                    <input
+                      ref={emailRef}
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          email: event.target.value,
+                        }))
+                      }
+                      placeholder="you@company.com"
+                      className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)]"
+                    />
+                    <span aria-hidden="true">]</span>
+                  </span>
                 </label>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="space-y-2 sm:col-span-1">
-                  <span className="text-sm font-medium text-white">
+              <div className="grid gap-5 min-[769px]:grid-cols-2">
+                <label className="block space-y-2">
+                  <span className="text-sm font-semibold text-[var(--foreground)]">
                     Company / Project
                   </span>
-                  <input
-                    type="text"
-                    value={form.company}
-                    onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        company: event.target.value,
-                      }))
-                    }
-                    placeholder="Acme / Side project"
-                    className="w-full rounded-[16px] border border-[var(--border)] bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(228,179,40,0.35)] focus:ring-2 focus:ring-[rgba(228,179,40,0.12)]"
-                  />
+                  <span className="flex items-center border border-[var(--border)] px-3 text-[var(--muted)] focus-within:border-[var(--primary)] focus-within:text-[var(--primary)]">
+                    <span aria-hidden="true">[</span>
+                    <input
+                      type="text"
+                      value={form.company}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          company: event.target.value,
+                        }))
+                      }
+                      placeholder="Acme / Side project"
+                      className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)]"
+                    />
+                    <span aria-hidden="true">]</span>
+                  </span>
                 </label>
-                <label className="space-y-2 sm:col-span-1">
-                  <span className="text-sm font-medium text-white">
+
+                <label className="block space-y-2">
+                  <span className="text-sm font-semibold text-[var(--foreground)]">
                     What are you building?
                   </span>
-                  <textarea
-                    rows={4}
-                    value={form.building}
-                    onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        building: event.target.value,
-                      }))
-                    }
-                    placeholder="Autonomous workflows, support agents, internal tooling..."
-                    className="w-full resize-none rounded-[16px] border border-[var(--border)] bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(228,160,23,0.35)] focus:ring-2 focus:ring-[rgba(228,160,23,0.12)]"
-                  />
+                  <span className="flex border border-[var(--border)] px-3 text-[var(--muted)] focus-within:border-[var(--primary)] focus-within:text-[var(--primary)]">
+                    <span aria-hidden="true" className="pt-3">
+                      [
+                    </span>
+                    <textarea
+                      rows={4}
+                      value={form.building}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          building: event.target.value,
+                        }))
+                      }
+                      placeholder="Autonomous workflows, support agents, internal tooling..."
+                      className="min-w-0 flex-1 resize-none bg-transparent px-2 py-3 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)]"
+                    />
+                    <span aria-hidden="true" className="pt-3">
+                      ]
+                    </span>
+                  </span>
                 </label>
               </div>
 
               {status === "error" && error ? (
-                <p className="rounded-[16px] border border-[rgba(239,68,68,0.22)] bg-[rgba(239,68,68,0.08)] px-4 py-3 text-sm text-[#fca5a5]">
-                  {error}
+                <p
+                  className="border border-[var(--primary)] px-4 py-3 text-sm text-[var(--primary)]"
+                  role="alert"
+                >
+                  ERROR: {error}
                 </p>
               ) : null}
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-3 border-t border-dashed border-[var(--border)] pt-5 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-sm text-[var(--muted)]">
                   We&apos;ll send a confirmation email right after you join.
                 </p>
-                <Button type="submit" className="min-w-44" disabled={status === "loading"}>
-                  {status === "loading" ? (
-                    <>
-                      <Loader2 className="size-4 animate-spin" />
-                      Loading...
-                    </>
-                  ) : (
-                    <>
-                      Join Waitlist
-                      <CheckCircle2 className="size-4" />
-                    </>
-                  )}
+                <Button type="submit" disabled={status === "loading"}>
+                  {status === "loading" ? "Loading..." : "Join Waitlist"}
                 </Button>
               </div>
             </form>

@@ -6,17 +6,26 @@ import { cn } from "@/lib/utils";
 type CardProps = {
   children: ReactNode;
   className?: string;
+  label?: string;
 };
 
-export function Card({ children, className }: CardProps) {
+export function Card({ children, className, label }: CardProps) {
   return (
-    <div
+    <article
       className={cn(
-        "rounded-[24px] border border-[var(--border)] bg-[var(--surface)]/90 p-8 shadow-[0_1px_0_rgba(255,255,255,0.03)_inset] transition duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(228,179,40,0.35)] hover:shadow-[0_0_0_1px_rgba(228,179,40,0.08),0_10px_40px_rgba(0,0,0,0.28)]",
+        "relative border border-[var(--border)] bg-[var(--surface)] p-6 transition-colors hover:border-[var(--primary)] sm:p-8",
+        label && "pt-9 sm:pt-10",
         className,
       )}
     >
+      {label ? (
+        <div className="absolute -top-[0.7rem] left-4 bg-[var(--surface)] px-2 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--primary)]">
+          <span aria-hidden="true">[ </span>
+          {label}
+          <span aria-hidden="true"> ]</span>
+        </div>
+      ) : null}
       {children}
-    </div>
+    </article>
   );
 }

@@ -12,11 +12,13 @@ export function Badge({ children, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-[var(--border)] bg-white/[0.03] px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[var(--foreground)]/90",
+        "inline-flex items-center gap-1 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--primary)]",
         className,
       )}
     >
-      {children}
+      <span aria-hidden="true">[</span>
+      <span>{children}</span>
+      <span aria-hidden="true">]</span>
     </span>
   );
 }

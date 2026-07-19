@@ -10,17 +10,18 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "secondary" | "outline" | "ghost" | "link";
 
 const baseClassName =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium tracking-[-0.01em] transition duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] disabled:pointer-events-none disabled:opacity-50";
+  "group inline-flex min-h-11 items-center justify-center gap-1 whitespace-nowrap border border-transparent px-3 py-2 font-mono text-sm font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-45";
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "bg-[var(--primary)] text-black hover:bg-[var(--primary-hover)] shadow-[0_0_0_1px_rgba(0,0,0,0.12)_inset]",
+    "text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)]",
   secondary:
-    "border border-[var(--border)] bg-[var(--surface)] text-white hover:border-[rgba(228,179,40,0.32)] hover:bg-white/5",
+    "text-[var(--foreground)] hover:bg-[var(--foreground)] hover:text-[var(--background)]",
   outline:
-    "border border-[var(--border)] bg-transparent text-white hover:border-[rgba(228,179,40,0.32)] hover:bg-white/5",
-  ghost: "bg-transparent text-white hover:bg-white/5",
-  link: "bg-transparent px-0 py-0 text-[var(--primary)] underline-offset-4 hover:underline",
+    "text-[var(--foreground)] hover:bg-[var(--primary)] hover:text-[var(--background)]",
+  ghost:
+    "text-[var(--muted)] hover:bg-[var(--foreground)] hover:text-[var(--background)]",
+  link: "min-h-0 px-0 py-0 text-[var(--primary)] underline underline-offset-4 hover:bg-transparent hover:text-[var(--primary-hover)]",
 };
 
 type ButtonCommonProps = {
@@ -37,13 +38,27 @@ type ButtonAsAnchorProps = ButtonCommonProps &
 export function Button(props: ButtonAsButtonProps | ButtonAsAnchorProps) {
   const { children, variant = "primary", className, ...rest } = props;
   const classes = cn(baseClassName, variantClasses[variant], className);
+  const content =
+    variant === "link" ? (
+      <>
+        <span aria-hidden="true">&gt;</span>
+        <span>{children}</span>
+      </>
+    ) : (
+      <>
+        <span aria-hidden="true">[</span>
+        {variant === "primary" ? <span aria-hidden="true">►</span> : null}
+        <span>{children}</span>
+        <span aria-hidden="true">]</span>
+      </>
+    );
 
   if ("href" in props && props.href) {
     const anchorProps = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
 
     return (
       <a className={classes} {...anchorProps} href={props.href}>
-        {children}
+        {content}
       </a>
     );
   }
@@ -52,7 +67,7 @@ export function Button(props: ButtonAsButtonProps | ButtonAsAnchorProps) {
 
   return (
     <button type="button" className={classes} {...buttonProps}>
-      {children}
+      {content}
     </button>
   );
 }

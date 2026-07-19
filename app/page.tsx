@@ -1,9 +1,5 @@
 import { LandingPage } from "@/components/landing-page";
-import {
-  getSiteUrl,
-  siteDescription,
-  siteName,
-} from "@/lib/seo";
+import { getSiteUrl, siteDescription, siteName } from "@/lib/seo";
 
 const structuredData = [
   {
@@ -62,10 +58,7 @@ export default function Page() {
   return (
     <>
       {structuredData.map((entry) => (
-        <script
-          key={entry["@id"]}
-          type="application/ld+json"
-        >
+        <script key={entry["@id"]} type="application/ld+json">
           {JSON.stringify(entry)}
         </script>
       ))}

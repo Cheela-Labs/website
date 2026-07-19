@@ -74,8 +74,6 @@ export function getVerificationMetadata(): Metadata["verification"] {
   return Object.keys(verification).length > 0 ? verification : undefined;
 }
 
-
-
 export const seo = {
   site: {
     name: "Cheela Labs",

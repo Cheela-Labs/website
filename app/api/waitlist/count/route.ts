@@ -8,7 +8,10 @@ export async function GET() {
 
     return NextResponse.json({ count });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Failed to fetch waitlist count.";
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Failed to fetch waitlist count.";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

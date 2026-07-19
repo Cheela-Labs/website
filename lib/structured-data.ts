@@ -12,11 +12,7 @@ export const structuredData = [
     image: `${seo.site.url}${seo.images.og}`,
     description: seo.site.description,
 
-    sameAs: [
-      seo.social.github,
-      seo.social.linkedin,
-      seo.social.x,
-    ],
+    sameAs: [seo.social.github, seo.social.linkedin, seo.social.x],
   },
 
   {

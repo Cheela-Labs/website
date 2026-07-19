@@ -1,4 +1,3 @@
-import { Resend } from "resend";
 import type { WaitlistDocument } from "@/lib/mongodb";
 import { getWaitlistCollection } from "@/lib/mongodb";
 
@@ -18,7 +17,6 @@ export type WaitlistResult = {
 const resendApiKey = process.env.RESEND_API_KEY;
 const resendFrom =
   process.env.RESEND_FROM_EMAIL ?? "Cheela <waitinglist@cheela.virentanti.in>";
-const resendClient = resendApiKey ? new Resend(resendApiKey) : null;
 
 function normalizeOptional(value?: string) {
   const trimmed = value?.trim();
@@ -65,7 +63,9 @@ export async function submitWaitlist(
   const created = Boolean(result.upsertedId);
   let emailSent = false;
 
-  if (created && resendClient) {
+  if (created && resendApiKey) {
+    const { Resend } = await import("resend");
+    const resendClient = new Resend(resendApiKey);
     await resendClient.emails.send({
       from: resendFrom,
       to: [email],

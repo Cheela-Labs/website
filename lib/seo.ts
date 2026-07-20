@@ -81,8 +81,8 @@ export const seo = {
     title: "Cheela Labs | Infrastructure for AI Agents",
     description:
       "Build production-ready AI agents with provider-agnostic runtimes, SDKs, and developer infrastructure.",
-    url: "https://cheela.virentanti.in",
-    domain: "cheela.virentanti.in",
+    url: "https://www.cheelalabs.com/",
+    domain: "cheelalabs.com",
     locale: "en_US",
     language: "en",
     themeColor: "#11110F",
@@ -103,7 +103,7 @@ export const seo = {
   company: {
     legalName: "Cheela Labs",
     foundingDate: "2026",
-    email: "hello@cheela.virentanti.in",
+    email: "Contact@cheelalabs.com",
   },
 
   keywords: [
@@ -135,7 +135,7 @@ export const seo = {
   ],
 
   links: {
-    // docs: "https://docs.cheela.virentanti.in",
+    docs: "https://docs.cheelalabs.com",
     github: "https://github.com/cheela-labs",
     npm: "https://www.npmjs.com/org/cheela-labs",
   },
@@ -143,7 +143,7 @@ export const seo = {
   authors: [
     {
       name: "Cheela Labs",
-      url: "https://cheela.virentanti.in",
+      url: "https://cheelalabs.com",
     },
   ],
 } as const;

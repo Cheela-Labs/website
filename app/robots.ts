@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: "/api/",
       },
     ],
-    sitemap: "https://www.cheela.virentanti.in/sitemap.xml",
+    sitemap: "https://www.cheelalabs.com/sitemap.xml",
   };
 }

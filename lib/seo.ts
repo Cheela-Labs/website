@@ -74,8 +74,6 @@ export function getVerificationMetadata(): Metadata["verification"] {
   return Object.keys(verification).length > 0 ? verification : undefined;
 }
 
-
-
 export const seo = {
   site: {
     name: "Cheela Labs",
@@ -87,7 +85,7 @@ export const seo = {
     domain: "cheelalabs.com",
     locale: "en_US",
     language: "en",
-    themeColor: "#0A0A0A",
+    themeColor: "#11110F",
   },
 
   social: {
@@ -97,7 +95,6 @@ export const seo = {
   },
 
   images: {
-    og: "/og.png",
     logo: "/logo.png",
     favicon: "/favicon.ico",
     apple: "/apple-touch-icon.png",

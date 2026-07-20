@@ -9,14 +9,9 @@ export const structuredData = [
     name: "Cheela Labs",
     url: seo.site.url,
     logo: `${seo.site.url}${seo.images.logo}`,
-    image: `${seo.site.url}${seo.images.og}`,
     description: seo.site.description,
 
-    sameAs: [
-      seo.social.github,
-      seo.social.linkedin,
-      seo.social.x,
-    ],
+    sameAs: [seo.social.github, seo.social.linkedin, seo.social.x],
   },
 
   {

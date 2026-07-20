@@ -6,17 +6,27 @@ import { cn } from "@/lib/utils";
 type BadgeProps = {
   children: ReactNode;
   className?: string;
+  tone?: "cyan" | "violet" | "lime" | "coral";
 };
 
-export function Badge({ children, className }: BadgeProps) {
+const toneClasses = {
+  cyan: "border-[var(--blue)] bg-transparent text-[var(--blue)]",
+  violet: "border-[var(--violet)] bg-transparent text-[var(--violet)]",
+  lime: "border-[var(--lime)] bg-transparent text-[var(--lime)]",
+  coral: "border-[var(--coral)] bg-transparent text-[var(--coral)]",
+};
+
+export function Badge({ children, className, tone = "cyan" }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-[var(--border)] bg-white/[0.03] px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[var(--foreground)]/90",
+        "inline-flex min-h-7 items-center gap-2 border px-2.5 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em]",
+        toneClasses[tone],
         className,
       )}
     >
-      {children}
+      <i aria-hidden="true" className="h-1.5 w-1.5 bg-current" />
+      <span>{children}</span>
     </span>
   );
 }

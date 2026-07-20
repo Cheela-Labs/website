@@ -1,4 +1,4 @@
-import { type Collection, MongoClient } from "mongodb";
+import type { Collection, MongoClient } from "mongodb";
 
 export type WaitlistDocument = {
   email: string;
@@ -18,13 +18,14 @@ declare global {
 
 let clientPromise: Promise<MongoClient> | undefined;
 
-function getClientPromise() {
+async function getClientPromise() {
   if (!mongoUri) {
     throw new Error("MONGODB_URI is required.");
   }
 
   if (!clientPromise) {
     if (!globalThis.__cheelaMongoClientPromise) {
+      const { MongoClient } = await import("mongodb");
       globalThis.__cheelaMongoClientPromise = new MongoClient(
         mongoUri,
       ).connect();

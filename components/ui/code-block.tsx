@@ -1,6 +1,5 @@
 "use client";
 
-import { Check, Copy, TerminalSquare } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -30,31 +29,29 @@ export function CodeBlock({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[24px] border border-[var(--border)] bg-[#0b0b0b]",
+        "overflow-hidden border border-[#3d3c38] bg-[#11110f] text-[#eeeae1]",
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
-        <div className="flex items-center gap-3 text-sm text-[var(--muted)]">
-          <TerminalSquare className="size-4 text-[var(--primary)]" />
-          <span className="font-medium text-white">{title}</span>
-          <span>·</span>
+      <div className="flex min-h-12 flex-wrap items-center justify-between gap-3 border-b border-[#3d3c38] bg-[#181816] px-4 py-3 sm:px-5">
+        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8c8a82]">
+          <span aria-hidden="true" className="h-2 w-2 bg-[#ff5c35]" />
+          <span aria-hidden="true" className="h-2 w-2 bg-[#87a7ff]" />
+          <span aria-hidden="true" className="mr-2 h-2 w-2 bg-[#bed78d]" />
+          <span className="font-semibold text-[#eeeae1]">{title}</span>
+          <span aria-hidden="true">::</span>
           <span>{language}</span>
         </div>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/[0.03] px-3 py-2 text-xs font-medium text-white transition hover:border-[rgba(228,179,40,0.28)] hover:bg-white/[0.06]"
+          className="inline-flex min-h-8 items-center gap-1 border border-[#3d3c38] px-2 text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-[#ff795a] transition-colors hover:border-[#eeeae1] hover:text-[#eeeae1]"
+          aria-live="polite"
         >
-          {copied ? (
-            <Check className="size-3.5 text-[var(--primary)]" />
-          ) : (
-            <Copy className="size-3.5" />
-          )}
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <pre className="overflow-x-auto p-5 text-sm leading-7 text-[#e8e8e8]">
+      <pre className="min-h-[420px] overflow-x-auto p-5 text-sm leading-7 text-[#c5c1b8] sm:p-7">
         <code>{children}</code>
       </pre>
     </div>

@@ -17,7 +17,7 @@ export function WaitlistCount() {
           setCount(typeof data.count === "number" ? data.count : null);
         }
       } catch {
-        // ignore errors silently
+        // Ignore count failures so the primary CTA remains available.
       }
     }
 
@@ -30,11 +30,22 @@ export function WaitlistCount() {
   }, []);
 
   return (
-    <div className="mt-6 rounded-[24px] border border-[var(--border)] bg-white/[0.02] p-4">
-      <div className="text-3xl font-medium tracking-[-0.04em] text-white">
-        {count === null ? "—" : count.toLocaleString()}
+    <div
+      className="border border-[var(--border)] bg-transparent p-5"
+      aria-live="polite"
+    >
+      <div className="flex items-center gap-2 text-[0.55rem] uppercase tracking-[0.14em] text-[var(--muted)]">
+        <i aria-hidden="true" className="h-1.5 w-1.5 bg-[var(--violet)]" />
+        EARLY_ACCESS_QUEUE
       </div>
-      <div className="mt-2 text-sm text-[var(--muted)]">People on the waitlist</div>
+      <div className="mt-4 flex items-end gap-3">
+        <div className="text-4xl font-semibold tracking-[-0.07em] text-[var(--foreground)]">
+          {count === null ? "—" : count.toLocaleString()}
+        </div>
+        <div className="pb-1 text-[0.6rem] uppercase tracking-[0.08em] text-[var(--muted)]">
+          builders queued
+        </div>
+      </div>
     </div>
   );
 }

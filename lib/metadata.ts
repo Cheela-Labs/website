@@ -6,13 +6,14 @@ import { seo } from "./seo";
 export function createMetadata(
   title?: string,
   description?: string,
+  origin: string = seo.site.url,
 ): Metadata {
-  const pageTitle = title
-    ? `${title} | ${seo.site.name}`
-    : seo.site.title;
+  const pageTitle = title ? `${title} | ${seo.site.name}` : seo.site.title;
+  const metadataBase = new URL(origin);
+  const canonical = new URL("/", metadataBase).toString();
 
   return {
-    metadataBase: new URL(seo.site.url),
+    metadataBase,
 
     title: pageTitle,
 
@@ -34,30 +35,22 @@ export function createMetadata(
     applicationName: seo.site.name,
 
     alternates: {
-      canonical: seo.site.url,
+      canonical,
     },
 
     openGraph: {
       type: "website",
       locale: seo.site.locale,
-      url: seo.site.url,
+      url: canonical,
       siteName: seo.site.name,
       title: pageTitle,
       description: description ?? seo.site.description,
-      images: [
-        {
-          url: seo.images.og,
-          width: 1200,
-          height: 630,
-        },
-      ],
     },
 
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: pageTitle,
       description: description ?? seo.site.description,
-      images: [seo.images.og],
     },
 
     robots: {

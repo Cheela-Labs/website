@@ -1,22 +1,33 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type CardProps = {
   children: ReactNode;
   className?: string;
-};
+  label?: string;
+} & HTMLAttributes<HTMLElement>;
 
-export function Card({ children, className }: CardProps) {
+export function Card({ children, className, label, ...props }: CardProps) {
   return (
-    <div
+    <article
+      {...props}
       className={cn(
-        "rounded-[24px] border border-[var(--border)] bg-[var(--surface)]/90 p-8 shadow-[0_1px_0_rgba(255,255,255,0.03)_inset] transition duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(228,179,40,0.35)] hover:shadow-[0_0_0_1px_rgba(228,179,40,0.08),0_10px_40px_rgba(0,0,0,0.28)]",
+        "relative border border-[var(--border)] bg-[var(--surface)] p-6 transition-colors duration-150 hover:border-[var(--foreground)] sm:p-8",
+        label && "pt-10 sm:pt-11",
         className,
       )}
     >
+      {label ? (
+        <div className="absolute left-4 top-0 border-x border-b border-[var(--border)] bg-[var(--background)] px-2.5 py-1.5 text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-[var(--primary)]">
+          <span aria-hidden="true" className="mr-1 text-[var(--muted)]">
+            {"//"}
+          </span>
+          {label}
+        </div>
+      ) : null}
       {children}
-    </div>
+    </article>
   );
 }
